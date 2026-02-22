@@ -4,9 +4,11 @@ import scalarUI from '@scalar/fastify-api-reference'
 import fastify from 'fastify'
 import {
   hasZodFastifySchemaValidationErrors,
+  jsonSchemaTransform,
   serializerCompiler,
   validatorCompiler,
 } from 'fastify-type-provider-zod'
+
 import { env } from '@/env'
 import { uploadLinkRoute } from './routes/upload-link'
 
@@ -17,13 +19,13 @@ app.setSerializerCompiler(serializerCompiler)
 
 app.setErrorHandler((error, request, reply) => {
   if (hasZodFastifySchemaValidationErrors(error)) {
-    reply.status(400).send({
-      message: 'Validation error',
-      issues: error.validation,
-    })
-  } else {
-    reply.status(500).send({
-      message: 'Internal server error',
+    const validation = error.validation as any[]
+
+    return reply.status(400).send({
+      errors: validation.map(err => ({
+        name: err.instancePath.replace('/', '') || 'field',
+        error: err.message,
+      })),
     })
   }
 
@@ -45,6 +47,7 @@ app.register(fastifySwagger, {
       version: '1.0.0',
     },
   },
+  transform: jsonSchemaTransform,
 })
 
 app.get('/openapi.json', () => app.swagger())
