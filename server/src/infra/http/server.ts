@@ -21,11 +21,9 @@ app.setErrorHandler((error, request, reply) => {
   if (hasZodFastifySchemaValidationErrors(error)) {
     const validation = error.validation as any[]
 
+    // console.log(error.validation)
     return reply.status(400).send({
-      errors: validation.map(err => ({
-        name: err.instancePath.replace('/', '') || 'field',
-        error: err.message,
-      })),
+      message: validation[0].message,
     })
   }
 
