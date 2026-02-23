@@ -1,5 +1,10 @@
+import { Upload } from '@aws-sdk/lib-storage'
 import type { FastifyPluginAsyncZod } from 'fastify-type-provider-zod'
 import { z } from 'zod'
+import { uploadLink } from '@/app/functions/upload-link'
+import { env } from '@/env'
+import { r2 } from '@/infra/storage/client'
+import { isRight, unwrapEither } from '@/shared/either'
 
 export const uploadLinkRoute: FastifyPluginAsyncZod = async app => {
   app.post(
@@ -10,23 +15,22 @@ export const uploadLinkRoute: FastifyPluginAsyncZod = async app => {
         tags: ['Links'],
         body: z.object({
           url: z.url().describe('The original URL to be shortened'),
-          customAlias: z
+          shortcode: z
             .string()
+            .regex(
+              /^[a-zA-Z0-9_-]+$/,
+              'Shortcode can only contain letters, numbers, underscores, and hyphens'
+            )
             .optional()
-            .describe('Optional custom alias for the shortened link'),
+            .describe('Optional custom shortcode for the shortened link'),
         }),
         response: {
           201: z
-            .object({ shortenedLink: z.string() })
+            .object({ id: z.string() })
             .describe('Link created successfully'),
           400: z
             .object({
-              errors: z.array(
-                z.object({
-                  name: z.string(),
-                  error: z.string(),
-                })
-              ),
+              message: z.string(),
             })
             .describe('Validation failed'),
           409: z
@@ -38,9 +42,44 @@ export const uploadLinkRoute: FastifyPluginAsyncZod = async app => {
       },
     },
     async (request, reply) => {
-      return reply.status(201).send({
-        shortenedLink: 'https://brev.ly/abc123',
-      })
+      const result = await uploadLink(request.body)
+
+      if (isRight(result)) {
+        const { id } = unwrapEither(result)
+
+        const upload = new Upload({
+          client: r2,
+          params: {
+            Key: `${id}.json`,
+            Bucket: env.CLOUDFLARE_BUCKET,
+            Body: JSON.stringify({
+              id,
+              url: request.body.url,
+              shortcode: request.body.shortcode,
+            }),
+            ContentType: 'text/plain',
+          },
+        })
+
+        await upload
+          .done()
+          .then(data => console.log('Upload concluído:', data.ETag))
+
+        return reply.status(201).send({ id })
+      }
+
+      const error = unwrapEither(result)
+
+      switch (error.constructor.name) {
+        case 'DuplicatedShortcode':
+          return reply
+            .status(409)
+            .send({ message: 'Shortened link already exists' })
+        case 'ShortcodeGenerationFailed':
+          return reply.status(400).send({
+            message: 'Failed to generate a unique shortcode, please try again',
+          })
+      }
     }
   )
 }
