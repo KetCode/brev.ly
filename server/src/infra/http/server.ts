@@ -10,6 +10,8 @@ import {
 } from 'fastify-type-provider-zod'
 
 import { env } from '@/env'
+import { exportLinksRoute } from './routes/export-links'
+import { getLinksRoute } from './routes/get-links'
 import { uploadLinkRoute } from './routes/upload-link'
 
 const app = fastify()
@@ -23,7 +25,7 @@ app.setErrorHandler((error, request, reply) => {
 
     // console.log(error.validation)
     return reply.status(400).send({
-      message: validation[0].message,
+      message: validation,
     })
   }
 
@@ -58,6 +60,8 @@ app.register(scalarUI, {
 })
 
 app.register(uploadLinkRoute)
+app.register(getLinksRoute)
+app.register(exportLinksRoute)
 
 app.listen({ port: env.PORT, host: '0.0.0.0' }).then(() => {
   console.log('HTTP server running!')

@@ -8,7 +8,7 @@ import { isRight, unwrapEither } from '@/shared/either'
 
 export const uploadLinkRoute: FastifyPluginAsyncZod = async app => {
   app.post(
-    '/upload-link',
+    '/links',
     {
       schema: {
         summary: 'Save a new shortened link',
@@ -57,7 +57,7 @@ export const uploadLinkRoute: FastifyPluginAsyncZod = async app => {
               url: request.body.url,
               shortcode: request.body.shortcode,
             }),
-            ContentType: 'text/plain',
+            ContentType: 'application/json',
           },
         })
 
@@ -72,9 +72,9 @@ export const uploadLinkRoute: FastifyPluginAsyncZod = async app => {
 
       switch (error.constructor.name) {
         case 'DuplicatedShortcode':
-          return reply
-            .status(409)
-            .send({ message: 'Shortened link already exists' })
+          return reply.status(409).send({
+            message: 'Shortened link already exists',
+          })
         case 'ShortcodeGenerationFailed':
           return reply.status(400).send({
             message: 'Failed to generate a unique shortcode, please try again',
