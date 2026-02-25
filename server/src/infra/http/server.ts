@@ -10,8 +10,10 @@ import {
 } from 'fastify-type-provider-zod'
 
 import { env } from '@/env'
+import { deleteLinkByIdRoute } from './routes/delete-link-by-id'
 import { exportLinksRoute } from './routes/export-links'
 import { getLinksRoute } from './routes/get-links'
+import { redirectToOriginalUrlRoute } from './routes/redirect-to-original-url'
 import { uploadLinkRoute } from './routes/upload-link'
 
 const app = fastify()
@@ -62,6 +64,9 @@ app.register(scalarUI, {
 app.register(uploadLinkRoute)
 app.register(getLinksRoute)
 app.register(exportLinksRoute)
+app.register(deleteLinkByIdRoute)
+
+app.register(redirectToOriginalUrlRoute)
 
 app.listen({ port: env.PORT, host: '0.0.0.0' }).then(() => {
   console.log('HTTP server running!')
