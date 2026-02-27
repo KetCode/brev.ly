@@ -3,7 +3,11 @@
 
 :root {
   --default-font-family: "Open sans", sans-serif;
+}
 
+
+@theme {
+  
   /* ================= Text XL ================= */
   --text-xl-custom: 24px;
   --text-xl-custom--line-height: 32px;
@@ -24,10 +28,7 @@
   /* ================= Text XS ================= */
   --text-xs-custom: 10px;
   --text-xs-custom--line-height: 14px;
-}
-
-
-@theme {
+  
   /* ================= BLUE ================= */
   --color-blue-base: #2c46b1;
   --color-blue-dark: #2c4091;
