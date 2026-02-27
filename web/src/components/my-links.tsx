@@ -24,7 +24,7 @@ export function MyLink() {
 
         <div className="flex flex-row items-center gap-4 w-full">
           <div className="flex flex-col justify-center gap-1 flex-1 min-w-0">
-            <span className="font-semibold text-[#2C46B1] text-sm truncate">
+            <span className="font-semibold text-blue-base text-sm truncate">
               brev.ly/Portfolio-Dev
             </span>
             <span className="text-xs text-gray-500 truncate">

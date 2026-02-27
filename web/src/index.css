@@ -1,6 +1,45 @@
-@import url("https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap");
 @import "tailwindcss";
 
 :root {
-  --default-font-family: "Inter", sans-serif;
+  --default-font-family: "Open sans", sans-serif;
+
+  /* ================= Text XL ================= */
+  --text-xl-custom: 24px;
+  --text-xl-custom--line-height: 32px;
+
+  /* ================= Text LG ================= */
+  --text-lg-custom: 18px;
+  --text-lg-custom--line-height: 24px;
+
+  /* ================= Text MD ================= */
+  --text-md-custom: 14px;
+  --text-md-custom--line-height: 18px;
+
+  /* ================= Text SM ================= */
+
+  --text-sm-custom: 12px;
+  --text-sm-custom--line-height: 16px;
+
+  /* ================= Text XS ================= */
+  --text-xs-custom: 10px;
+  --text-xs-custom--line-height: 14px;
+}
+
+
+@theme {
+  /* ================= BLUE ================= */
+  --color-blue-base: #2c46b1;
+  --color-blue-dark: #2c4091;
+
+  /* ================= GRAYSCALE ================= */
+  --color-gray-100: #f9f9fb;
+  --color-gray-200: #e4e6ec;
+  --color-gray-300: #cdcfd5;
+  --color-gray-400: #74798b;
+  --color-gray-500: #4d505c;
+  --color-gray-600: #1f2025;
+
+  /* ================= FEEDBACK ================= */
+  --color-danger: #b12c4d;
 }

@@ -10,9 +10,9 @@ const buttonVariants = tv({
       icon: 'px-2 py-2',
     },
     variant: {
-      primary: 'bg-[#2C46B1] hover:bg-[#2C4091] text-white rounded-lg',
+      primary: 'bg-blue-base hover:bg-blue-dark text-white rounded-lg',
       secondary:
-        'bg-gray-200 text-gray-500 text-xs font-semibold rounded-sm border border-transparent hover:border-[#2C46B1]',
+        'bg-gray-200 text-gray-500 text-xs font-semibold rounded-sm border border-transparent hover:border-blue-base',
     },
   },
 

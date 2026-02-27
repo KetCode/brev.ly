@@ -11,7 +11,7 @@ export function NewLink() {
         <div className="flex flex-col items-start gap-2 w-full">
           <span className="text-xs">LINK ORIGINAL</span>
           <input
-            className="flex flex-row justify-center items-center w-full px-4 py-3.75 gap-2 border border-gray-300 rounded-lg placeholder-gray-400 text-sm text-gray-600 focus:border-[#2C46B1] focus:ring-1 focus:ring-[#2C46B1] focus:outline-none"
+            className="flex flex-row justify-center items-center w-full px-4 py-3.75 gap-2 border border-gray-300 rounded-lg placeholder-gray-400 text-sm text-gray-600 focus:border-blue-base focus:ring-1 focus:ring-blue-base focus:outline-none"
             placeholder="www.exemplo.com.br"
           ></input>
         </div>
@@ -19,7 +19,7 @@ export function NewLink() {
         <div className="flex flex-col items-start gap-2 w-full">
           <span className="text-xs">LINK ENCURTADO</span>
           <input
-            className="flex flex-row justify-center items-center w-full px-4 py-4 gap-2 border border-gray-300 rounded-lg placeholder-gray-400 text-sm text-gray-600 focus:border-[#2C46B1] focus:ring-1 focus:ring-[#2C46B1] focus:outline-none"
+            className="flex flex-row justify-center items-center w-full px-4 py-4 gap-2 border border-gray-300 rounded-lg placeholder-gray-400 text-sm text-gray-600 focus:border-blue-base focus:ring-1 focus:ring-blue-base focus:outline-none"
             placeholder="brev.ly/"
           ></input>
         </div>
