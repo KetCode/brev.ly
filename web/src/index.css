@@ -5,7 +5,6 @@
   --default-font-family: "Open sans", sans-serif;
 }
 
-
 @theme {
   
   /* ================= Text XL ================= */
@@ -43,4 +42,10 @@
 
   /* ================= FEEDBACK ================= */
   --color-danger: #b12c4d;
+  --animate-border: border 1s linear infinite;
+
+  @keyframes border {
+    from { transform: translateX(0%) }
+    to { transform: translateX(220%) }
+  }
 }
