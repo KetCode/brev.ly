@@ -29,9 +29,6 @@
 			"trailingCommas": "es5"
 		}
 	},
-	"css": {
-		"unknownAtRules": false
-	},
 	"assist": {
 		"enabled": true,
 		"actions": {
