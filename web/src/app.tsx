@@ -10,7 +10,6 @@ export function App() {
         <Route path="/" element={<Index />} />
         <Route path="/:shortcode" element={<RedirectPage />} />
         <Route path="*" element={<NotFound />} />
-        <Route path="/not-found" element={<NotFound />} />
       </Routes>
     </BrowserRouter>
   )
