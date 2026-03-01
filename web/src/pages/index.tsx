@@ -14,6 +14,7 @@ interface Link {
 export function Index() {
   const [links, setLinks] = useState<Link[]>([])
   const [loading, setLoading] = useState(true)
+  const [creating, setCreating] = useState(true)
 
   useEffect(() => {
     api
@@ -35,10 +36,15 @@ export function Index() {
 
         <div className="flex flex-col lg:flex-row gap-6 items-start mt-6 lg:mt-8">
           <div className="w-full max-w-95 mx-auto lg:mx-0 lg:shrink-0">
-            <NewLink onAdd={addLink} />
+            <NewLink onAdd={addLink} setCreating={setCreating} />
           </div>
           <div className="w-full max-w-95 lg:max-w-140 mx-auto lg:mx-0">
-            <LinkList links={links} setLinks={setLinks} loading={loading} />
+            <LinkList
+              links={links}
+              setLinks={setLinks}
+              loading={loading}
+              creating={creating}
+            />
           </div>
         </div>
       </div>

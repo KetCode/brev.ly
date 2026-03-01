@@ -1,5 +1,11 @@
 import { AlertTriangleIcon } from 'lucide-react'
-import { type SyntheticEvent, useState } from 'react'
+import {
+  type Dispatch,
+  type SetStateAction,
+  type SyntheticEvent,
+  useState,
+} from 'react'
+import { toast } from 'sonner'
 import { api } from '../lib/axios'
 import { Button } from './ui/button'
 import { Input } from './ui/input'
@@ -11,16 +17,17 @@ interface NewLinkProps {
     shortcode?: string | null
     accessCount: number
   }) => void
+  setCreating: Dispatch<SetStateAction<boolean>>
 }
 
-export function NewLink({ onAdd }: NewLinkProps) {
+export function NewLink({ onAdd, setCreating }: NewLinkProps) {
   const [url, setURL] = useState('')
   const [shortcode, setShortcode] = useState('')
   const [isSaving, setIsSaving] = useState(false)
-  const [errors, setErrors] = useState<{ url?: string }>({})
+  const [errors, setErrors] = useState<{ url?: string; shortcode?: string }>({})
 
   const validate = () => {
-    const newErrors: { url?: string } = {}
+    const newErrors: { url?: string; shortcode?: string } = {}
 
     if (!url.trim()) {
       newErrors.url = 'Informe uma url válida'
@@ -36,6 +43,7 @@ export function NewLink({ onAdd }: NewLinkProps) {
     if (!validate()) return
 
     setIsSaving(true)
+    setCreating(true)
 
     await api
       .post('/links', {
@@ -49,7 +57,20 @@ export function NewLink({ onAdd }: NewLinkProps) {
         setShortcode('')
         setErrors({})
       })
-      .finally(() => setIsSaving(false))
+      .catch(error => {
+        if (error.response?.status === 409) {
+          toast.error(<strong>Erro no cadastro</strong>, {
+            description: 'Essa URL encurtada já existe',
+          })
+          setErrors(prev => ({ ...prev, shortcode: 'URL encurtada já existe' }))
+        } else {
+          toast.error('Erro ao criar o link. Tente novamente')
+        }
+      })
+      .finally(() => {
+        setIsSaving(false)
+        setCreating(false)
+      })
   }
 
   return (
@@ -107,11 +128,20 @@ export function NewLink({ onAdd }: NewLinkProps) {
               prefix="brev.ly/"
               onChange={event => setShortcode(event.target.value)}
             />
+
+            {errors.shortcode && (
+              <div className="flex flex-row items-center gap-2 text-danger">
+                <AlertTriangleIcon size={16} />
+                <p className="text-gray-500 text-sm-custom self-stretch">
+                  {errors.shortcode}
+                </p>
+              </div>
+            )}
           </div>
         </div>
 
         <Button type="submit" className="w-full" disabled={isSaving}>
-          Salvar link
+          {isSaving ? 'Salvando...' : 'Salvar link'}
         </Button>
       </div>
     </form>
