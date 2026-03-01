@@ -1,5 +1,4 @@
 import { Copy, Trash2 } from 'lucide-react'
-import { api } from '../lib/axios'
 import { Button } from './ui/button'
 
 type LinkItemProps = {
@@ -7,25 +6,24 @@ type LinkItemProps = {
   url: string
   shortcode: string | null
   accessCount: number
+  onDelete: (id: string) => void
+  onAccess: (id: string) => void
 }
 
-export function LinkItem({ id, url, shortcode, accessCount }: LinkItemProps) {
+export function LinkItem({
+  id,
+  url,
+  shortcode,
+  accessCount,
+  onDelete,
+  onAccess,
+}: LinkItemProps) {
   function copyShortUrl(shortcode: string | null) {
     if (!shortcode) {
       return
     }
 
     navigator.clipboard.writeText(`http://localhost:5173/${shortcode}`)
-  }
-
-  async function deleteLink(id: string) {
-    if (!id) {
-      return
-    }
-
-    await api.delete(`/links/${id}`, {
-      data: {},
-    })
   }
 
   return (
@@ -39,6 +37,7 @@ export function LinkItem({ id, url, shortcode, accessCount }: LinkItemProps) {
             target="_blank"
             rel="noreferrer noopener"
             className="font-semibold text-blue-base text-md-custom truncate"
+            onClick={() => onAccess(id)}
           >
             brev.ly/{shortcode}
           </a>
@@ -61,7 +60,7 @@ export function LinkItem({ id, url, shortcode, accessCount }: LinkItemProps) {
           <Button
             size="icon"
             variant="secondary"
-            onClick={() => deleteLink(id)}
+            onClick={() => onDelete(id)}
             className="px-[0.437rem] py-[0.437rem]"
           >
             <Trash2 className="size-4" />

@@ -1,5 +1,4 @@
 import { DownloadIcon, Loader } from 'lucide-react'
-import { useEffect, useState } from 'react'
 import link from '../assets/link.svg'
 import { api } from '../lib/axios'
 import { LinkItem } from './link-item'
@@ -10,19 +9,33 @@ interface Link {
   url: string
   shortcode?: string | null
   accessCount: number
-  createdAt: Date
 }
 
-export function LinkList() {
-  const [links, setLinks] = useState<Link[]>([])
-  const [loading, setLoading] = useState(true)
+interface LinkListProps {
+  links: Link[]
+  setLinks: React.Dispatch<React.SetStateAction<Link[]>>
+  loading: boolean
+}
 
-  useEffect(() => {
-    api
-      .get('/links')
-      .then(response => setLinks(response.data.links))
-      .finally(() => setLoading(false))
-  })
+export function LinkList({ links, setLinks, loading }: LinkListProps) {
+  async function handleDelete(id: string) {
+    if (!id) {
+      return
+    }
+
+    await api.delete(`/links/${id}`, {
+      data: {},
+    })
+    setLinks(prev => prev.filter(link => link.id !== id))
+  }
+
+  async function handleAccess(id: string) {
+    setLinks(prev =>
+      prev.map(link =>
+        link.id === id ? { ...link, accessCount: link.accessCount + 1 } : link
+      )
+    )
+  }
 
   return (
     <div className="relative flex flex-col p-6 md:p-8 gap-4 lg:gap-5 bg-gray-100 rounded-lg w-full md:w-auto overflow-hidden">
@@ -78,6 +91,8 @@ export function LinkList() {
               url={link.url}
               shortcode={link.shortcode ?? null}
               accessCount={link.accessCount}
+              onDelete={handleDelete}
+              onAccess={handleAccess}
             />
           )
         })

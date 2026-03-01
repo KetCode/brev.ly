@@ -1,24 +1,17 @@
-import { LinkList } from "./components/link-list";
-import { Logo } from "./components/logo";
-import { NewLink } from "./components/new-link";
+import { BrowserRouter, Route, Routes } from 'react-router-dom'
+import { Index } from './pages'
+import { NotFound } from './pages/not-found'
+import { RedirectPage } from './pages/redirect-page'
 
 export function App() {
-	return (
-		<main className="flex justify-center overflow-x-hidden min-h-dvh ">
-			<div className="w-full max-w-236 px-3 lg:px-4 py-10">
-				<div className="flex justify-center lg:justify-start">
-					<Logo />
-				</div>
-
-				<div className="flex flex-col lg:flex-row gap-6 items-start mt-6 lg:mt-8">
-					<div className="w-full max-w-95 mx-auto lg:mx-0 lg:shrink-0">
-						<NewLink />
-					</div>
-					<div className="w-full max-w-95 lg:max-w-140 mx-auto lg:mx-0">
-						<LinkList />
-					</div>
-				</div>
-			</div>
-		</main>
-	);
+  return (
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<Index />} />
+        <Route path="/:shortcode" element={<RedirectPage />} />
+        <Route path="*" element={<NotFound />} />
+        <Route path="/not-found" element={<NotFound />} />
+      </Routes>
+    </BrowserRouter>
+  )
 }
