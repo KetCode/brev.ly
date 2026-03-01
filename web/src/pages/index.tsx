@@ -14,7 +14,7 @@ interface Link {
 export function Index() {
   const [links, setLinks] = useState<Link[]>([])
   const [loading, setLoading] = useState(true)
-  const [creating, setCreating] = useState(true)
+  const [creating, setCreating] = useState(false)
 
   useEffect(() => {
     api
