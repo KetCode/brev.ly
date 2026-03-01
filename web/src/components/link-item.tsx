@@ -1,4 +1,5 @@
 import { Copy, Trash2 } from 'lucide-react'
+import { toast } from 'sonner'
 import { Button } from './ui/button'
 
 type LinkItemProps = {
@@ -24,6 +25,9 @@ export function LinkItem({
     }
 
     navigator.clipboard.writeText(`http://localhost:5173/${shortcode}`)
+    toast.info(<strong>Link copiado com sucesso</strong>, {
+      description: `O link ${shortcode} foi copiado para a área de trasnferência`,
+    })
   }
 
   return (
