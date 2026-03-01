@@ -1,6 +1,7 @@
 import { DownloadIcon, Loader } from 'lucide-react'
 import link from '../assets/link.svg'
 import { api } from '../lib/axios'
+import { exportLink } from '../utils/export-links'
 import { LinkItem } from './link-item'
 import { Button } from './ui/button'
 
@@ -15,9 +16,15 @@ interface LinkListProps {
   links: Link[]
   setLinks: React.Dispatch<React.SetStateAction<Link[]>>
   loading: boolean
+  creating: boolean
 }
 
-export function LinkList({ links, setLinks, loading }: LinkListProps) {
+export function LinkList({
+  links,
+  setLinks,
+  loading,
+  creating,
+}: LinkListProps) {
   async function handleDelete(id: string) {
     if (!id) {
       return
@@ -39,7 +46,7 @@ export function LinkList({ links, setLinks, loading }: LinkListProps) {
 
   return (
     <div className="relative flex flex-col p-6 md:p-8 gap-4 lg:gap-5 bg-gray-100 rounded-lg w-full md:w-auto overflow-hidden">
-      {loading && (
+      {(loading || creating) && (
         <div className="absolute top-0 left-0 h-0.5 w-40 bg-linear-to-r from-transparent via-blue-base to-transparent animate-border" />
       )}
       <div className="flex flex-row w-full justify-between items-center gap-2">
@@ -51,6 +58,7 @@ export function LinkList({ links, setLinks, loading }: LinkListProps) {
           className="flex flex-row justify-center items-center px-2 py-2 gap-1.5"
           size="icon"
           variant="secondary"
+          onClick={() => exportLink()}
           disabled={!links.length}
         >
           <DownloadIcon className="size-4" />
