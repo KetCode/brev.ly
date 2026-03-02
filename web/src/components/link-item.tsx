@@ -3,15 +3,13 @@ import { toast } from 'sonner'
 import { Button } from './ui/button'
 
 type LinkItemProps = {
-  id: string
   url: string
   shortcode: string | null
   accessCount: number
-  onDelete: (id: string) => void
+  onDelete: (shortcode: string | null) => void
 }
 
 export function LinkItem({
-  id,
   url,
   shortcode,
   accessCount,
@@ -61,7 +59,7 @@ export function LinkItem({
           <Button
             size="icon"
             variant="secondary"
-            onClick={() => onDelete(id)}
+            onClick={() => onDelete(shortcode)}
             className="px-[0.437rem] py-[0.437rem]"
           >
             <Trash2 className="size-4" />

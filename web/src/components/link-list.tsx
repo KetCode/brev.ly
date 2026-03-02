@@ -1,4 +1,5 @@
 import { DownloadIcon, Loader } from 'lucide-react'
+import { toast } from 'sonner'
 import link from '../assets/link.svg'
 import { api } from '../lib/axios'
 import { exportLink } from '../utils/export-links'
@@ -25,15 +26,21 @@ export function LinkList({
   loading,
   creating,
 }: LinkListProps) {
-  async function handleDelete(id: string) {
-    if (!id) {
-      return
+  async function handleDelete(shortcode: string | null) {
+    if (!shortcode) {
+      toast.error(<strong>Erro ao deletar</strong>, {
+        description: 'Link inválido',
+      })
     }
 
-    await api.delete(`/links/${id}`, {
+    await api.delete(`/links/${shortcode}`, {
       data: {},
     })
-    setLinks(prev => prev.filter(link => link.id !== id))
+
+    toast.success(<strong>Sucesso ao deletar</strong>, {
+      description: 'Link foi deletado com sucesso',
+    })
+    setLinks(prev => prev.filter(link => link.shortcode !== shortcode))
   }
 
   return (
@@ -84,13 +91,12 @@ export function LinkList({
         </div>
       ) : (
         <div
-          className={`flex flex-col gap-3 w-full ${links.length > 9 ? 'max-h-[576px] overflow-y-auto [scrollbar-color:theme(colors.blue.base)_theme(colors.gray.100)] pr-2' : ''}`}
+          className={`flex flex-col gap-3 w-full ${links.length > 9 ? 'max-h-144 overflow-y-auto [scrollbar-color:var(--color-blue-base)_var(--color-gray-100)] pr-2' : ''}`}
         >
           {links.map(link => {
             return (
               <LinkItem
                 key={link.id}
-                id={link.id}
                 url={link.url}
                 shortcode={link.shortcode ?? null}
                 accessCount={link.accessCount}
