@@ -17,8 +17,9 @@ export const createLinkRoute: FastifyPluginAsyncZod = async app => {
           url: z.url().describe('The original URL to be shortened'),
           shortcode: z
             .string()
-            .regex(
-              /^[a-zA-Z0-9_-]+$/,
+            .transform(value => (value === '' ? undefined : value))
+            .refine(
+              value => !value || /^[a-zA-Z0-9_-]+$/.test(value),
               'Shortcode can only contain letters, numbers, underscores, and hyphens'
             )
             .optional()
