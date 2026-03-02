@@ -36,14 +36,6 @@ export function LinkList({
     setLinks(prev => prev.filter(link => link.id !== id))
   }
 
-  async function handleAccess(id: string) {
-    setLinks(prev =>
-      prev.map(link =>
-        link.id === id ? { ...link, accessCount: link.accessCount + 1 } : link
-      )
-    )
-  }
-
   return (
     <div className="relative flex flex-col p-6 md:p-8 gap-4 lg:gap-5 bg-gray-100 rounded-lg w-full md:w-auto overflow-hidden">
       {(loading || creating) && (
@@ -100,7 +92,6 @@ export function LinkList({
               shortcode={link.shortcode ?? null}
               accessCount={link.accessCount}
               onDelete={handleDelete}
-              onAccess={handleAccess}
             />
           )
         })

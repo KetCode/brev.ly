@@ -8,7 +8,6 @@ type LinkItemProps = {
   shortcode: string | null
   accessCount: number
   onDelete: (id: string) => void
-  onAccess: (id: string) => void
 }
 
 export function LinkItem({
@@ -17,7 +16,6 @@ export function LinkItem({
   shortcode,
   accessCount,
   onDelete,
-  onAccess,
 }: LinkItemProps) {
   function copyShortUrl(shortcode: string | null) {
     if (!shortcode) {
@@ -41,7 +39,6 @@ export function LinkItem({
             target="_blank"
             rel="noreferrer noopener"
             className="font-semibold text-blue-base text-md-custom truncate"
-            onClick={() => onAccess(id)}
           >
             brev.ly/{shortcode}
           </a>
