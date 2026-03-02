@@ -83,18 +83,22 @@ export function LinkList({
           </div>
         </div>
       ) : (
-        links.map(link => {
-          return (
-            <LinkItem
-              key={link.id}
-              id={link.id}
-              url={link.url}
-              shortcode={link.shortcode ?? null}
-              accessCount={link.accessCount}
-              onDelete={handleDelete}
-            />
-          )
-        })
+        <div
+          className={`flex flex-col gap-3 w-full ${links.length > 9 ? 'max-h-[576px] overflow-y-auto [scrollbar-color:theme(colors.blue.base)_theme(colors.gray.100)] pr-2' : ''}`}
+        >
+          {links.map(link => {
+            return (
+              <LinkItem
+                key={link.id}
+                id={link.id}
+                url={link.url}
+                shortcode={link.shortcode ?? null}
+                accessCount={link.accessCount}
+                onDelete={handleDelete}
+              />
+            )
+          })}
+        </div>
       )}
     </div>
   )

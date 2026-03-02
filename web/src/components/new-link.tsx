@@ -56,6 +56,10 @@ export function NewLink({ onAdd, setCreating }: NewLinkProps) {
         setURL('')
         setShortcode('')
         setErrors({})
+
+        toast.success(<strong>Link cadastrado</strong>, {
+          description: 'O link foi cadastrado com sucesso!',
+        })
       })
       .catch(error => {
         if (error.response?.status === 409) {
