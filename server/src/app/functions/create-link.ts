@@ -7,7 +7,7 @@ import { type Either, makeLeft, makeRight } from '@/shared/either'
 import { DuplicatedShortcode } from './errors/duplicated-shortcode'
 import { ShortcodeGenerationFailed } from './errors/shortcode-generation-failed'
 
-const uploadLinkInput = z.object({
+const createLinkInput = z.object({
   url: z.url().describe('The original URL to be shortened'),
   shortcode: z
     .string()
@@ -19,14 +19,14 @@ const uploadLinkInput = z.object({
     .describe('Optional custom shortcode for the shortened link'),
 })
 
-type UploadLinkInput = z.input<typeof uploadLinkInput>
+type CreateLinkInput = z.input<typeof createLinkInput>
 
-export async function uploadLink(
-  input: UploadLinkInput
+export async function createLink(
+  input: CreateLinkInput
 ): Promise<
   Either<DuplicatedShortcode | ShortcodeGenerationFailed, { id: string }>
 > {
-  const { url, shortcode } = uploadLinkInput.parse(input)
+  const { url, shortcode } = createLinkInput.parse(input)
 
   if (shortcode) {
     const exists = await db

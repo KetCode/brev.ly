@@ -1,17 +1,17 @@
 import { Upload } from '@aws-sdk/lib-storage'
 import type { FastifyPluginAsyncZod } from 'fastify-type-provider-zod'
 import { z } from 'zod'
-import { uploadLink } from '@/app/functions/upload-link'
+import { createLink } from '@/app/functions/create-link'
 import { env } from '@/env'
 import { r2 } from '@/infra/storage/client'
 import { isRight, unwrapEither } from '@/shared/either'
 
-export const uploadLinkRoute: FastifyPluginAsyncZod = async app => {
+export const createLinkRoute: FastifyPluginAsyncZod = async app => {
   app.post(
     '/links',
     {
       schema: {
-        summary: 'Save a new shortened link',
+        summary: 'Create a new shortened link',
         tags: ['Links'],
         body: z.object({
           url: z.url().describe('The original URL to be shortened'),
@@ -42,7 +42,7 @@ export const uploadLinkRoute: FastifyPluginAsyncZod = async app => {
       },
     },
     async (request, reply) => {
-      const result = await uploadLink(request.body)
+      const result = await createLink(request.body)
 
       if (isRight(result)) {
         const { id } = unwrapEither(result)

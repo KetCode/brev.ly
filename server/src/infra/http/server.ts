@@ -10,11 +10,11 @@ import {
 } from 'fastify-type-provider-zod'
 
 import { env } from '@/env'
+import { createLinkRoute } from './routes/create-link'
 import { deleteLinkByIdRoute } from './routes/delete-link-by-id'
 import { exportLinksRoute } from './routes/export-links'
 import { getLinksRoute } from './routes/get-links'
 import { redirectToOriginalUrlRoute } from './routes/redirect-to-original-url'
-import { uploadLinkRoute } from './routes/upload-link'
 
 const app = fastify()
 
@@ -62,7 +62,7 @@ app.register(scalarUI, {
   },
 })
 
-app.register(uploadLinkRoute)
+app.register(createLinkRoute)
 app.register(getLinksRoute)
 app.register(exportLinksRoute)
 app.register(deleteLinkByIdRoute)

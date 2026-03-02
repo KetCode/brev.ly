@@ -4,14 +4,14 @@ import { describe, expect, it } from 'vitest'
 import { db } from '@/infra/db'
 import { schema } from '@/infra/db/schemas'
 import { isLeft, isRight, unwrapEither } from '@/shared/either'
+import { createLink } from '../create-link'
 import { DuplicatedShortcode } from '../errors/duplicated-shortcode'
-import { uploadLink } from '../upload-link'
 
 describe('upload link', () => {
   it('should be able to upload a link', async () => {
     const shortcode = randomUUID().slice(0, 6)
 
-    const sut = await uploadLink({
+    const sut = await createLink({
       url: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ',
       shortcode: shortcode,
     })
@@ -28,7 +28,7 @@ describe('upload link', () => {
   it('should not be able to upload the same shortcode', async () => {
     const shortcode = 'test'
 
-    const sut = await uploadLink({
+    const sut = await createLink({
       url: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ',
       shortcode: shortcode,
     })
@@ -44,7 +44,7 @@ describe('upload link', () => {
   })
 
   it('should generate shortcode when empty string provided', async () => {
-    const sut = await uploadLink({
+    const sut = await createLink({
       url: 'https://google.com',
     })
 
