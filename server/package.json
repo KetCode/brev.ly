@@ -12,7 +12,9 @@
     "test:watch": "dotenv -e .env.example -- vitest",
     "db:migrate:test": "dotenv -e .env.example -- drizzle-kit migrate",
     "pretest": "npm run db:migrate:test",
-    "pretest:watch": "npm run db:migrate:test"
+    "pretest:watch": "npm run db:migrate:test",
+    "build": "tsup-node src/infra/http/server.ts --format cjs --out-dir dist",
+    "start": "node dist/src/infra/http/server.js"
   },
   "keywords": [],
   "author": "",
@@ -23,6 +25,7 @@
     "@types/node": "^25.2.3",
     "dotenv-cli": "^11.0.0",
     "drizzle-kit": "^0.31.9",
+    "tsup": "^8.5.1",
     "typescript": "^5.9.3",
     "vite-tsconfig-paths": "^6.1.1",
     "vitest": "^4.0.18"
