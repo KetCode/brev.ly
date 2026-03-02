@@ -17,10 +17,17 @@ export function Index() {
   const [creating, setCreating] = useState(false)
 
   useEffect(() => {
-    api
-      .get('/links')
-      .then(response => setLinks(response.data.links))
-      .finally(() => setLoading(false))
+    const fetchLinks = () => {
+      api
+        .get('/links')
+        .then(response => setLinks(response.data.links))
+        .finally(() => setLoading(false))
+    }
+
+    fetchLinks()
+    const interval = setInterval(fetchLinks, 5000)
+
+    return () => clearInterval(interval)
   }, [])
 
   function addLink(newLink: Link) {
