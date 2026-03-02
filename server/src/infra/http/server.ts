@@ -11,7 +11,7 @@ import {
 
 import { env } from '@/env'
 import { createLinkRoute } from './routes/create-link'
-import { deleteLinkByIdRoute } from './routes/delete-link-by-id'
+import { deleteLinkByShortcodeRoute } from './routes/delete-link-by-shortcode'
 import { exportLinksRoute } from './routes/export-links'
 import { getLinksRoute } from './routes/get-links'
 import { redirectToOriginalUrlRoute } from './routes/redirect-to-original-url'
@@ -65,7 +65,7 @@ app.register(scalarUI, {
 app.register(createLinkRoute)
 app.register(getLinksRoute)
 app.register(exportLinksRoute)
-app.register(deleteLinkByIdRoute)
+app.register(deleteLinkByShortcodeRoute)
 
 app.register(redirectToOriginalUrlRoute)
 
