@@ -48,24 +48,6 @@ export const createLinkRoute: FastifyPluginAsyncZod = async app => {
       if (isRight(result)) {
         const { id } = unwrapEither(result)
 
-        const upload = new Upload({
-          client: r2,
-          params: {
-            Key: `${id}.json`,
-            Bucket: env.CLOUDFLARE_BUCKET,
-            Body: JSON.stringify({
-              id,
-              url: request.body.url,
-              shortcode: request.body.shortcode,
-            }),
-            ContentType: 'application/json',
-          },
-        })
-
-        await upload
-          .done()
-          .then(data => console.log('Upload concluído:', data.ETag))
-
         return reply.status(201).send({ id })
       }
 
