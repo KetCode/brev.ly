@@ -26,11 +26,6 @@
 
 It shortens URLs with persistent storage, featuring clipboard copy functionality and real-time access analytics.
 
-
-Click the link below to explore the full project and discover all its features:
-
-[![Acesse o Projeto](https://img.shields.io/static/v1?label=Acesse%20o%20Projeto&message=Aqui&color=B20000&labelColor=000000)](https://ourpokedex.netlify.app)
-
 ### 🚀 Tech Stack
 
 This project was developed with the following technologies:
@@ -88,6 +83,8 @@ cd ../web
 `npm install` Install dependencies
 
 `npm run dev` Start development server
+
+[![Video Demo](.github/preview.png)](.github/video.mp4)
 
 ### 📜 License
 
