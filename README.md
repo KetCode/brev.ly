@@ -84,7 +84,7 @@ cd ../web
 
 `npm run dev` Start development server
 
-[![Video Demo](.github/preview.png)](.github/video.mp4)
+https://github.com/user-attachments/assets/2a6788ca-4c7a-4258-81e7-bacff26278f1
 
 ### 📜 License
 
