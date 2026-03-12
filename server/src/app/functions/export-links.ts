@@ -25,7 +25,6 @@ export async function exportLinks(
 
   const { sql, params } = db
     .select({
-      id: schema.links.id,
       url: schema.links.url,
       shortcode: schema.links.shortcode,
       accessCount: schema.links.accessCount,
@@ -48,7 +47,6 @@ export async function exportLinks(
     delimiter: ',',
     header: true,
     columns: [
-      { key: 'id', header: 'ID' },
       { key: 'url', header: 'URL' },
       { key: 'shortcode', header: 'Shortcode' },
       { key: 'access_count', header: 'Access count' },
